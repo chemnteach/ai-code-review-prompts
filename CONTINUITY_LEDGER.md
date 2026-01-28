@@ -52,11 +52,13 @@ Add CLAUDE.md auto-load feature, clarify platform-specific usage differences.
 
 ### Commits
 - `fad2e2c` - feat: add Layer 0 auto-load via CLAUDE.md
-- (this session) - docs: clarify platform-specific usage workflows
+- `7ed81b8` - docs: clarify platform-specific usage workflows
+- `3119986` - docs: add Installation section with clone instructions
 
 ### Also Done
 - Installed Layer 0 to user's global `~/.claude/CLAUDE.md`
 - Confirmed auto-load behavior for future sessions
+- Verified `/init` doesn't affect global CLAUDE.md (only creates project-level)
 
 ---
 
