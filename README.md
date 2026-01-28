@@ -23,7 +23,7 @@ When you use **personas**, AI becomes critical:
 ```
 ┌─────────────────────────────────────────┐
 │  LAYER 0: Generation Guidelines        │
-│  Paste at session start                │
+│  Auto-loads in Claude Code via CLAUDE.md│
 │  PREVENTS issues before they exist      │
 └─────────────────────────────────────────┘
                  ↓
@@ -123,7 +123,11 @@ Choose your IDE and run the installer. Full-length prompts are installed automat
 .\install-skills.ps1
 ```
 
-**Usage:** Type `/layer1-quick-review` → Full prompt runs automatically
+**What gets installed:**
+- Skills in `~/.claude/skills/` (invoke with `/layer1-quick-review`, etc.)
+- **Layer 0 in `~/.claude/CLAUDE.md`** - auto-loads every session, no manual paste!
+
+**Usage:** Layer 0 is automatic. Type `/layer1-quick-review` for reviews.
 
 <details>
 <summary><strong>Manual installation & skill-rules.json</strong> (click to expand)</summary>
@@ -376,6 +380,10 @@ ai-code-review-prompts/
 │   ├── layer2-data-integrity-specialist.md # Data integrity (574 lines)
 │   └── layer3-verification.md              # Verification (513 lines)
 │
+├── # Claude Code auto-load template
+├── claude-code/
+│   └── CLAUDE.md.template              # Layer 0 for ~/.claude/CLAUDE.md
+│
 ├── # Legacy/Lite snippets (condensed versions)
 ├── vscode/
 │   └── review.code-snippets                # Condensed snippets (~30 lines each)
@@ -384,7 +392,7 @@ ai-code-review-prompts/
     └── example-review-output.md            # Sample review output
 ```
 
-**Note:** Installers generate full-length snippets from `prompts/`. The `vscode/review.code-snippets` file contains condensed versions for quick reference.
+**Note:** Installers generate full-length snippets from `prompts/`. The Claude Code installer also installs Layer 0 to `~/.claude/CLAUDE.md` for automatic loading every session.
 
 ---
 
