@@ -53,7 +53,7 @@ When you use **personas**, AI becomes critical:
 
 ## 🚀 Quick Start
 
-### For VS Code (Work or Home)
+### For VS Code
 
 1. **Copy snippets file:**
    ```bash
@@ -84,17 +84,112 @@ When you use **personas**, AI becomes critical:
 5. **After fixing Critical/P1:**
    - `review-verify` - Verify fixes actually work
 
-### For Claude Code (Home)
+### For Claude Code
 
 The prompts work the same way - just paste them directly into your Claude Code session.
 
 **Optional:** Create skills for one-command reviews:
+
+**Quick install:**
+
 ```bash
-# Copy prompt files to Claude Code skills
-cp prompts/*.md ~/.claude/skills/
+# Linux/Mac
+./install-skills.sh
+
+# Windows (PowerShell)
+.\install-skills.ps1
 ```
 
 Then use: `/layer1-quick-review` instead of copy-paste.
+
+<details>
+<summary><strong>Manual installation</strong> (click to expand)</summary>
+
+Skills require a specific folder structure:
+```
+~/.claude/skills/
+├── layer1-quick-review/     # Folder named after the skill
+│   └── SKILL.md             # File MUST be named SKILL.md
+├── layer2-security-specialist/
+│   └── SKILL.md
+└── ...
+```
+
+1. **Create a folder for each skill** (name = skill name):
+
+   **Linux/Mac:**
+   ```bash
+   mkdir -p ~/.claude/skills/layer1-quick-review
+   mkdir -p ~/.claude/skills/layer2-security-specialist
+   # ... repeat for each prompt
+   ```
+
+   **Windows (PowerShell):**
+   ```powershell
+   mkdir -Force ~\.claude\skills\layer1-quick-review
+   mkdir -Force ~\.claude\skills\layer2-security-specialist
+   # ... repeat for each prompt
+   ```
+
+2. **Copy each prompt as SKILL.md**:
+
+   **Linux/Mac:**
+   ```bash
+   cp prompts/layer1-quick-review.md ~/.claude/skills/layer1-quick-review/SKILL.md
+   cp prompts/layer2-security-specialist.md ~/.claude/skills/layer2-security-specialist/SKILL.md
+   # ... repeat for each prompt
+   ```
+
+   **Windows (PowerShell):**
+   ```powershell
+   copy prompts\layer1-quick-review.md ~\.claude\skills\layer1-quick-review\SKILL.md
+   copy prompts\layer2-security-specialist.md ~\.claude\skills\layer2-security-specialist\SKILL.md
+   # ... repeat for each prompt
+   ```
+
+3. **Ensure frontmatter exists** at the top of each SKILL.md:
+   ```yaml
+   ---
+   name: layer1-quick-review
+   description: Quick code review for common issues
+   user_invocable: true
+   ---
+   ```
+
+</details>
+
+**(Optional) Enable auto-suggestions** by adding to `~/.claude/skills/skill-rules.json`:
+
+   This file makes Claude automatically suggest skills based on keywords. If the file doesn't exist, create it:
+
+   ```json
+   {
+       "version": "1.0",
+       "description": "Skill activation triggers for Claude Code",
+       "skills": {
+           "layer1-quick-review": {
+               "type": "domain",
+               "enforcement": "suggest",
+               "priority": "high",
+               "description": "Quick code review for common issues",
+               "promptTriggers": {
+                   "keywords": [
+                       "review code",
+                       "code review",
+                       "check my code",
+                       "review this"
+                   ],
+                   "intentPatterns": [
+                       "(review|check).*?(code|implementation)",
+                       "(is|does).*?(this|code).*?(good|ok|correct)"
+                   ]
+               }
+           }
+       }
+   }
+   ```
+
+   If the file already exists, add your skill entry to the `"skills"` object.
 
 ---
 
@@ -144,6 +239,8 @@ Then use: `/layer1-quick-review` instead of copy-paste.
 ```
 ai-code-review-prompts/
 ├── README.md                               # This file
+├── install-skills.sh                       # Linux/Mac installer for Claude Code
+├── install-skills.ps1                      # Windows installer for Claude Code
 ├── prompts/
 │   ├── layer0-generation-guidelines.md     # Prevention (paste at start)
 │   ├── layer1-quick-review.md              # 80% use case
