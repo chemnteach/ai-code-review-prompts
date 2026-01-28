@@ -72,7 +72,7 @@ Choose your IDE and run the installer. Full-length prompts are installed automat
 - Codeium
 - Amazon Q
 
-**Usage:** Select code → Type `review-quick` → Tab → Full prompt appears in editor
+**Usage:** Select code → Type `review-quick` → Tab → Copy expanded prompt to AI chat
 
 ---
 
@@ -107,7 +107,7 @@ Choose your IDE and run the installer. Full-length prompts are installed automat
 - GitHub Copilot plugin
 - Any AI chat panel
 
-**Usage:** Select code → Type `review-quick` or Ctrl+J → Select template → Prompt expands
+**Usage:** Select code → `review-quick` or Ctrl+J → Select template → Copy to AI chat
 
 **Note:** Restart IDE after installation to load templates.
 
@@ -223,7 +223,7 @@ Just copy-paste from the `prompts/` folder directly into your AI chat.
 ## 📖 Prompt Reference
 
 ### Layer 0: Generation Guidelines
-**When:** Paste at the START of every coding session, BEFORE writing code
+**When:** Start of every session (auto-loads in Claude Code, paste once in other tools)
 **Purpose:** Prevents issues before they exist by establishing expectations
 **Key areas:**
 - Managing uncertainty (stop and ask, don't assume)
@@ -276,8 +276,8 @@ Just copy-paste from the `prompts/` folder directly into your AI chat.
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │  1. START SESSION                                           │
-│     Paste Layer 0: Generation Guidelines                    │
-│     (Sets expectations, prevents over-engineering)          │
+│     Layer 0: Generation Guidelines                          │
+│     (Auto in Claude Code, paste once in other tools)        │
 └─────────────────────────────────────────────────────────────┘
                               ↓
 ┌─────────────────────────────────────────────────────────────┐
@@ -325,23 +325,72 @@ After Quick Review, if code involves:
 
 ---
 
-## 💡 Usage Examples
+## 💡 Usage By Platform
 
-### Solo Developer
+### Claude Code (No Copy-Paste)
 
-```
-Session start: "Here are my generation guidelines: [paste Layer 0]"
-After coding: "Review this code: [paste code + Layer 1]"
-If Critical/P1: Fix → "Verify these fixes: [paste original findings + new code + Layer 3]"
-```
-
-### On-Demand Specialist
+Claude Code has full codebase access - just invoke skills directly:
 
 ```
-"This handles authentication - run Security Specialist: [paste code + Layer 2 Security]"
-"This payment logic seems complex - run Correctness Specialist: [paste code + Layer 2 Correctness]"
-"These queries might be slow at scale - run Performance Specialist: [paste code + Layer 2 Performance]"
+# Layer 0 loads automatically from ~/.claude/CLAUDE.md - nothing to do!
+
+# Quick review - Claude sees your code
+/layer1-quick-review
+
+# Specialist review on specific file
+/layer2-security-specialist
+"Review src/auth/login.ts"
+
+# Verification after fixes
+/layer3-verification
+"Verify my fixes to the SQL injection issue"
 ```
+
+**Key difference:** Claude Code sees your files. No paste, no select, no copy.
+
+---
+
+### IDE Snippets (VS Code, JetBrains, Visual Studio)
+
+Snippets expand the prompt with your selected code - you still paste into AI chat:
+
+```
+1. Select code in editor
+2. Type prefix (e.g., review-quick) → Tab
+3. Prompt expands with your code embedded
+4. Copy expanded text → Paste into AI chat (Copilot, Continue, etc.)
+```
+
+**Why snippets help:** They format 200-800 line prompts with your code included. Without snippets, you'd manually paste prompt + code.
+
+**Limitation:** AI extensions only see what you paste, not your whole codebase.
+
+---
+
+### Manual / Any AI Chat
+
+Copy-paste from `prompts/` folder:
+
+```
+1. Open prompts/layer1-quick-review.md
+2. Copy entire prompt
+3. Paste into AI chat
+4. Add your code below the prompt
+```
+
+---
+
+### Workflow Comparison
+
+| Action | Claude Code | IDE Snippets | Manual |
+|--------|-------------|--------------|--------|
+| Layer 0 | Auto-loads | Paste once per session | Paste once per session |
+| Select code | Not needed | Yes, before snippet | Copy manually |
+| Expand prompt | `/skill-name` | Type prefix + Tab | Copy from file |
+| Paste to AI | Not needed | Yes, to AI chat | Yes, prompt + code |
+| AI sees codebase | Yes, full access | Only pasted code | Only pasted code |
+
+---
 
 ### Team Code Review
 
