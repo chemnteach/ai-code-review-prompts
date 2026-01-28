@@ -53,44 +53,67 @@ When you use **personas**, AI becomes critical:
 
 ## 🚀 Quick Start
 
-### For VS Code
+Choose your IDE and run the installer. Full-length prompts are installed automatically.
 
-1. **Copy snippets file:**
-   ```bash
-   cp vscode/review.code-snippets ~/.vscode/snippets/
-   # Or for a workspace:
-   cp vscode/review.code-snippets .vscode/review.code-snippets
-   ```
+### VS Code
 
-2. **At session start, type:**
-   ```
-   review-gen
-   ```
-   Paste the generation guidelines into your AI chat.
+```bash
+# Linux/Mac
+./install-vscode.sh
 
-3. **After writing code:**
-   - Select the code
-   - Type `review-quick`
-   - Paste into AI chat
-   - Get comprehensive review
+# Windows (PowerShell)
+.\install-vscode.ps1
+```
 
-4. **For deep dives:**
-   - `review-security` - Security analysis
-   - `review-correctness` - Logic errors
-   - `review-maint` - Maintainability
-   - `review-perf` - Performance
-   - `review-data` - Data integrity
+**Compatible AI extensions:**
+- GitHub Copilot Chat
+- Continue (open source)
+- Cody (Sourcegraph)
+- Codeium
+- Amazon Q
 
-5. **After fixing Critical/P1:**
-   - `review-verify` - Verify fixes actually work
+**Usage:** Select code → Type `review-quick` → Tab → Full prompt appears in editor
 
-### For Claude Code
+---
 
-The prompts work the same way - just paste them directly into your Claude Code session.
+### Visual Studio (Full IDE)
 
-**Optional:** Create skills for one-command reviews:
+```powershell
+# Windows only
+.\install-visualstudio.ps1
+```
 
-**Quick install:**
+**Compatible AI features:**
+- GitHub Copilot (VS 2022 17.8+)
+- JetBrains AI Assistant (via ReSharper)
+- Visual Studio IntelliCode
+
+**Usage:** Type `review-quick` → Tab twice → Replace placeholder with code → Copy to AI chat
+
+---
+
+### JetBrains IDEs (IntelliJ, PyCharm, WebStorm, Rider, etc.)
+
+```bash
+# Linux/Mac
+./install-jetbrains.sh
+
+# Windows (PowerShell)
+.\install-jetbrains.ps1
+```
+
+**Compatible AI features:**
+- JetBrains AI Assistant (built-in)
+- GitHub Copilot plugin
+- Any AI chat panel
+
+**Usage:** Select code → Type `review-quick` or Ctrl+J → Select template → Prompt expands
+
+**Note:** Restart IDE after installation to load templates.
+
+---
+
+### Claude Code
 
 ```bash
 # Linux/Mac
@@ -100,10 +123,10 @@ The prompts work the same way - just paste them directly into your Claude Code s
 .\install-skills.ps1
 ```
 
-Then use: `/layer1-quick-review` instead of copy-paste.
+**Usage:** Type `/layer1-quick-review` → Full prompt runs automatically
 
 <details>
-<summary><strong>Manual installation</strong> (click to expand)</summary>
+<summary><strong>Manual installation & skill-rules.json</strong> (click to expand)</summary>
 
 Skills require a specific folder structure:
 ```
@@ -115,39 +138,21 @@ Skills require a specific folder structure:
 └── ...
 ```
 
-1. **Create a folder for each skill** (name = skill name):
+**Manual steps:**
 
-   **Linux/Mac:**
+1. **Create folders:**
    ```bash
    mkdir -p ~/.claude/skills/layer1-quick-review
-   mkdir -p ~/.claude/skills/layer2-security-specialist
    # ... repeat for each prompt
    ```
 
-   **Windows (PowerShell):**
-   ```powershell
-   mkdir -Force ~\.claude\skills\layer1-quick-review
-   mkdir -Force ~\.claude\skills\layer2-security-specialist
-   # ... repeat for each prompt
-   ```
-
-2. **Copy each prompt as SKILL.md**:
-
-   **Linux/Mac:**
+2. **Copy prompts:**
    ```bash
    cp prompts/layer1-quick-review.md ~/.claude/skills/layer1-quick-review/SKILL.md
-   cp prompts/layer2-security-specialist.md ~/.claude/skills/layer2-security-specialist/SKILL.md
    # ... repeat for each prompt
    ```
 
-   **Windows (PowerShell):**
-   ```powershell
-   copy prompts\layer1-quick-review.md ~\.claude\skills\layer1-quick-review\SKILL.md
-   copy prompts\layer2-security-specialist.md ~\.claude\skills\layer2-security-specialist\SKILL.md
-   # ... repeat for each prompt
-   ```
-
-3. **Ensure frontmatter exists** at the top of each SKILL.md:
+3. **Ensure frontmatter exists:**
    ```yaml
    ---
    name: layer1-quick-review
@@ -156,40 +161,47 @@ Skills require a specific folder structure:
    ---
    ```
 
-</details>
-
 **(Optional) Enable auto-suggestions** by adding to `~/.claude/skills/skill-rules.json`:
 
-   This file makes Claude automatically suggest skills based on keywords. If the file doesn't exist, create it:
+```json
+{
+    "version": "1.0",
+    "skills": {
+        "layer1-quick-review": {
+            "type": "domain",
+            "enforcement": "suggest",
+            "priority": "high",
+            "description": "Quick code review for common issues",
+            "promptTriggers": {
+                "keywords": ["review code", "code review", "check my code"]
+            }
+        }
+    }
+}
+```
 
-   ```json
-   {
-       "version": "1.0",
-       "description": "Skill activation triggers for Claude Code",
-       "skills": {
-           "layer1-quick-review": {
-               "type": "domain",
-               "enforcement": "suggest",
-               "priority": "high",
-               "description": "Quick code review for common issues",
-               "promptTriggers": {
-                   "keywords": [
-                       "review code",
-                       "code review",
-                       "check my code",
-                       "review this"
-                   ],
-                   "intentPatterns": [
-                       "(review|check).*?(code|implementation)",
-                       "(is|does).*?(this|code).*?(good|ok|correct)"
-                   ]
-               }
-           }
-       }
-   }
-   ```
+</details>
 
-   If the file already exists, add your skill entry to the `"skills"` object.
+---
+
+### Any Other IDE / Manual Use
+
+Just copy-paste from the `prompts/` folder directly into your AI chat.
+
+---
+
+### Snippet Prefixes (All IDEs)
+
+| Prefix | Layer | Purpose |
+|--------|-------|---------|
+| `review-gen` | 0 | Generation guidelines (session start) |
+| `review-quick` | 1 | Comprehensive review (80% use case) |
+| `review-security` | 2 | Security deep dive |
+| `review-correctness` | 2 | Logic errors, edge cases |
+| `review-maint` | 2 | Maintainability, debuggability |
+| `review-perf` | 2 | Performance, scalability |
+| `review-data` | 2 | Data integrity, transactions |
+| `review-verify` | 3 | Verify fixes work |
 
 ---
 
@@ -204,32 +216,136 @@ Skills require a specific folder structure:
 
 ---
 
-## 💡 Usage Patterns
+## 📖 Prompt Reference
 
-### Solo Developer Workflow
+### Layer 0: Generation Guidelines
+**When:** Paste at the START of every coding session, BEFORE writing code
+**Purpose:** Prevents issues before they exist by establishing expectations
+**Key areas:**
+- Managing uncertainty (stop and ask, don't assume)
+- Complexity management (start simple, avoid over-engineering)
+- Surgical changes (change only what's requested)
+- Security defaults (sanitize inputs, no hardcoded secrets)
+
+### Layer 1: Quick Review
+**When:** After writing code, BEFORE committing
+**Purpose:** Catches 80%+ of issues in one pass
+**Key areas (10 categories):**
+- Logic errors & correctness (off-by-one, null handling, boundaries)
+- Wrong assumptions (the #1 AI failure mode)
+- Security risks (injection, auth, secrets)
+- Time bombs (resource leaks, scalability issues)
+- AI-generated smells (unnecessary abstraction, duplication)
+- Maintainability & debuggability
+- Performance red flags
+- Integration & dependencies
+- Edge cases & error scenarios
+- Orthogonal changes (scope creep)
+
+### Layer 2: Specialists (Deep Dives)
+**When:** After Quick Review finds concerns in a specific area, OR for high-risk code
+
+| Specialist | Use When | Key Areas |
+|------------|----------|-----------|
+| **Security** | Auth, user input, APIs, file operations, external integrations | 14 areas: Injection (SQL, command, XSS), auth/authz, secrets, input validation, cryptography, session management, CORS, business logic flaws, AI-specific (prompt injection) |
+| **Correctness** | Algorithms, business logic, data processing, state management | 10 areas: Off-by-one, null handling, boundary conditions, race conditions, state management, error handling, type coercion, AI-specific patterns |
+| **Maintainability** | Complex logic, shared code, anything maintained >6 months | 10 areas: Duplication, complexity, naming quality, explainability, coupling, documentation, AI-specific issues, error messages, structure, future-proofing |
+| **Performance** | Database queries, loops, data processing, user-facing operations | 10 areas: N+1 queries, algorithmic complexity, memory management, unbounded operations, blocking operations, caching, data processing, scalability anti-patterns |
+| **Data Integrity** | Database operations, data pipelines, multi-step workflows | 10 areas: Input validation, transactions, null propagation, type mismatches, encoding, timezones, state consistency, data loss scenarios, error recovery |
+
+### Layer 3: Verification
+**When:** AFTER fixing Critical/P1 issues, BEFORE marking as resolved
+**Purpose:** Confirms fixes actually work and don't introduce regressions
+**Key areas:**
+- Fix completeness (all instances? all paths?)
+- Fix correctness (root cause or band-aid?)
+- Lazy shortcuts detection (hardcoded values, suppressed errors)
+- Regression detection
+- Test coverage verification
+
+---
+
+## 🔄 Recommended Workflow
+
+### Standard Flow (Every Session)
 
 ```
-1. Start session with Generation Guidelines (review-gen)
-2. Write code with AI
-3. Run Quick Review (review-quick)
-4. Fix Critical/P1 issues
-5. Run Verification (review-verify)
-6. Ship when Verification passes
+┌─────────────────────────────────────────────────────────────┐
+│  1. START SESSION                                           │
+│     Paste Layer 0: Generation Guidelines                    │
+│     (Sets expectations, prevents over-engineering)          │
+└─────────────────────────────────────────────────────────────┘
+                              ↓
+┌─────────────────────────────────────────────────────────────┐
+│  2. WRITE CODE                                              │
+│     AI follows guidelines, asks questions when uncertain    │
+└─────────────────────────────────────────────────────────────┘
+                              ↓
+┌─────────────────────────────────────────────────────────────┐
+│  3. QUICK REVIEW                                            │
+│     Run Layer 1 on completed code                           │
+│     Catches 80%+ of issues                                  │
+└─────────────────────────────────────────────────────────────┘
+                              ↓
+              ┌───────────────┴───────────────┐
+              │                               │
+              ↓                               ↓
+┌─────────────────────────┐     ┌─────────────────────────────┐
+│  No Critical/P1 issues  │     │  Critical/P1 issues found   │
+│  → Ship or continue     │     │  → Fix issues               │
+└─────────────────────────┘     │  → Run Layer 3 Verification │
+                                │  → Repeat until ✅ Fixed    │
+                                └─────────────────────────────┘
 ```
 
-### On-Demand Deep Dive
+### Deep Dive Flow (High-Risk Code)
 
 ```
-"Run Security Specialist on auth.py"
-"Run Correctness Specialist on the payment logic"
-"Run Performance Specialist on the database queries"
+After Quick Review, if code involves:
+├── Auth/security     → Run Security Specialist
+├── Complex logic     → Run Correctness Specialist
+├── Shared/long-lived → Run Maintainability Specialist
+├── Database/loops    → Run Performance Specialist
+└── Data operations   → Run Data Integrity Specialist
 ```
 
-### Full Audit
+### Full Audit Flow (Pre-Release)
 
 ```
-"Run Quick Review on entire codebase"
-"Run all Specialists and give consolidated report"
+1. Quick Review on all changed files
+2. Security Specialist on auth, APIs, user input
+3. Performance Specialist on database queries, data processing
+4. Data Integrity Specialist on all data operations
+5. Verification on all Critical/P1 fixes
+```
+
+---
+
+## 💡 Usage Examples
+
+### Solo Developer
+
+```
+Session start: "Here are my generation guidelines: [paste Layer 0]"
+After coding: "Review this code: [paste code + Layer 1]"
+If Critical/P1: Fix → "Verify these fixes: [paste original findings + new code + Layer 3]"
+```
+
+### On-Demand Specialist
+
+```
+"This handles authentication - run Security Specialist: [paste code + Layer 2 Security]"
+"This payment logic seems complex - run Correctness Specialist: [paste code + Layer 2 Correctness]"
+"These queries might be slow at scale - run Performance Specialist: [paste code + Layer 2 Performance]"
+```
+
+### Team Code Review
+
+```
+PR Review: Run Quick Review on diff
+Security-sensitive: Add Security Specialist review
+Performance-critical: Add Performance Specialist review
+Before merge: Verification on all Critical/P1 fixes
 ```
 
 ---
@@ -239,24 +355,36 @@ Skills require a specific folder structure:
 ```
 ai-code-review-prompts/
 ├── README.md                               # This file
-├── install-skills.sh                       # Linux/Mac installer for Claude Code
-├── install-skills.ps1                      # Windows installer for Claude Code
+│
+├── # Installers
+├── install-vscode.sh                       # VS Code (Linux/Mac)
+├── install-vscode.ps1                      # VS Code (Windows)
+├── install-visualstudio.ps1                # Visual Studio (Windows)
+├── install-jetbrains.sh                    # JetBrains IDEs (Linux/Mac)
+├── install-jetbrains.ps1                   # JetBrains IDEs (Windows)
+├── install-skills.sh                       # Claude Code (Linux/Mac)
+├── install-skills.ps1                      # Claude Code (Windows)
+│
+├── # Full Prompts (copy-paste or used by installers)
 ├── prompts/
-│   ├── layer0-generation-guidelines.md     # Prevention (paste at start)
-│   ├── layer1-quick-review.md              # 80% use case
-│   ├── layer2-security-specialist.md       # Security deep dive
-│   ├── layer2-correctness-specialist.md    # Logic errors
-│   ├── layer2-maintainability-specialist.md
-│   ├── layer2-performance-specialist.md
-│   ├── layer2-data-integrity-specialist.md
-│   └── layer3-verification.md              # Verify fixes
+│   ├── layer0-generation-guidelines.md     # Prevention (91 lines)
+│   ├── layer1-quick-review.md              # Quick review (194 lines)
+│   ├── layer2-security-specialist.md       # Security (782 lines)
+│   ├── layer2-correctness-specialist.md    # Correctness (469 lines)
+│   ├── layer2-maintainability-specialist.md # Maintainability (604 lines)
+│   ├── layer2-performance-specialist.md    # Performance (602 lines)
+│   ├── layer2-data-integrity-specialist.md # Data integrity (574 lines)
+│   └── layer3-verification.md              # Verification (513 lines)
+│
+├── # Legacy/Lite snippets (condensed versions)
 ├── vscode/
-│   └── review.code-snippets                # VS Code snippets (8 snippets)
-├── claude-code/
-│   └── skills/                             # (Optional) Claude Code skills
+│   └── review.code-snippets                # Condensed snippets (~30 lines each)
+│
 └── examples/
-    └── example-review-output.md            # Sample review
+    └── example-review-output.md            # Sample review output
 ```
+
+**Note:** Installers generate full-length snippets from `prompts/`. The `vscode/review.code-snippets` file contains condensed versions for quick reference.
 
 ---
 
