@@ -6,6 +6,17 @@ Research shows AI-generated code has **2.74x more XSS vulnerabilities** and **1.
 
 ---
 
+## 📥 Installation
+
+```bash
+git clone https://github.com/chemnteach/ai-code-review-prompts.git
+cd ai-code-review-prompts
+```
+
+Then run the installer for your IDE (see [Quick Start](#-quick-start) below).
+
+---
+
 ## 🎯 The Problem
 
 When you ask AI "Is this code good?", it's agreeable by default:
