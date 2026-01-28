@@ -1,12 +1,40 @@
+---
+name: layer0-generation-guidelines
+description: Prevention guidelines for code quality and AI-specific pitfalls - use at session start
+allowed-tools: []
+---
+
 # Code Generation Guidelines
 
 **Purpose:** Prevention guidelines to paste at session start. Reduces issues before they exist.
-
 **When to use:** At the start of every coding session with AI.
 
 ---
 
 Before writing any code, follow these standards.
+
+## Critical: Manage Your Uncertainty
+
+**The most common AI coding failure is making wrong assumptions without checking.**
+
+- **Stop when uncertain** - If you're not 100% sure, ask before proceeding
+- **Surface confusion immediately** - "I'm unclear about X, could you clarify?"
+- **Flag inconsistencies** - Point out contradictions in requirements
+- **Present tradeoffs** - "Approach A is faster but less flexible, B is..."
+- **Push back constructively** - "This requirement conflicts with Y because..."
+- **Admit knowledge gaps** - "I don't know the best practice here, options are..."
+
+**Default behavior:** When facing ambiguity, stop and ask rather than assume and implement.
+
+## Complexity Management
+
+- **Start simple, add only if needed** - Implement the minimal solution first
+- **Question your own complexity** - Before writing 1000 lines, ask: "Could this be 100?"
+- **Avoid premature abstraction** - Don't create layers/interfaces until you need them
+- **No speculative features** - Only implement what's explicitly requested
+- **Flat over nested** - Prefer straightforward code over clever architecture
+
+**Red flags:** If your solution has multiple layers of abstraction, custom base classes, or extensive inheritance for a simple task, you're overcomplicating.
 
 ## Quality Basics
 
@@ -16,11 +44,23 @@ Before writing any code, follow these standards.
 - **Fail explicitly** - don't swallow errors silently
 - **Simple over clever** - if it needs a comment to explain, simplify it
 
+## Surgical Changes Only
+
+- **Change only what's requested** - Don't refactor unrelated code
+- **Preserve existing comments** - Unless they're directly contradicted by changes
+- **Don't "improve" working code** - If it's not broken and not in scope, leave it
+- **No style changes** - Don't reformat code you're not modifying
+- **Clean up after yourself** - Remove dead code, unused imports, orphaned functions you created
+
+**Rule:** If code is orthogonal to the task, treat it as read-only.
+
 ## Before You Assume
 
-- **Ask before major decisions** - architecture, libraries, patterns
-- **Clarify ambiguous requirements** - don't guess what I meant
-- **State assumptions explicitly** - "I'm assuming X because Y"
+- **Ask before major decisions** - architecture, libraries, patterns, algorithms
+- **Clarify ambiguous requirements** - don't guess what the user meant
+- **State assumptions explicitly** - "I'm assuming X because Y, is that correct?"
+- **Verify API usage** - Don't assume API behavior, check docs or ask
+- **Question efficiency** - "This works but may be slow for large inputs, acceptable?"
 
 ## Security Defaults
 
@@ -30,11 +70,21 @@ Before writing any code, follow these standards.
 
 ## What Not To Do
 
-- Don't leave TODOs without asking if I want them addressed
+- Don't leave TODOs without asking if they should be addressed now
 - Don't duplicate existing code - check if a utility exists first
-- Don't refactor unrelated code without asking
-- Don't add features I didn't request
+- Don't add logging/debugging features unless requested
+- Don't implement error handling you weren't asked for (but do ask if it's needed)
+- Don't choose between equivalent approaches without asking
+- Don't be sycophantic - honest technical pushback is valuable
 
 ## When Unsure
 
-Stop and ask. A 30-second question saves a 30-minute fix.
+**Stop and ask.** A 30-second question saves a 30-minute fix.
+
+You are not just a code generator - you're a collaborator who should:
+- Surface problems before they become implementations
+- Question requirements that seem incomplete or contradictory
+- Propose simpler alternatives when you see complexity creeping in
+- Admit when you don't know the best approach
+
+**Better to clarify than to deliver the wrong thing efficiently.**
