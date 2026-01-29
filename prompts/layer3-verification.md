@@ -1,5 +1,5 @@
 ---
-name: verification-reviewer
+name: layer3-verification
 description: Verify fixes actually work - mandatory for Critical/P1 findings, prevents false fixes and regressions
 allowed-tools: []
 ---

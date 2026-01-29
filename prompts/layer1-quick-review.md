@@ -1,5 +1,5 @@
 ---
-name: quick-review
+name: layer1-quick-review
 description: Comprehensive code review catching 80%+ of real issues before commit
 allowed-tools: []
 ---

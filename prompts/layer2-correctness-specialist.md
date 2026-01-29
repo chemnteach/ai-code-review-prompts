@@ -1,5 +1,5 @@
 ---
-name: correctness-specialist
+name: layer2-correctness-specialist
 description: Deep correctness review - logic errors, edge cases, race conditions, data flow
 allowed-tools: []
 ---

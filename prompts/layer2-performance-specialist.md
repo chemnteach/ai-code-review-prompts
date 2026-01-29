@@ -1,5 +1,5 @@
 ---
-name: performance-specialist
+name: layer2-performance-specialist
 description: Deep performance review - bottlenecks, scalability, resource management, algorithmic complexity
 allowed-tools: []
 ---

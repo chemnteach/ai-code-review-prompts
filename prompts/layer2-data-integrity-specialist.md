@@ -1,5 +1,5 @@
 ---
-name: data-integrity-specialist
+name: layer2-data-integrity-specialist
 description: Deep data integrity review - validation, transactions, consistency, corruption prevention
 allowed-tools: []
 ---

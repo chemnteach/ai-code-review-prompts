@@ -1,5 +1,5 @@
 ---
-name: maintainability-specialist
+name: layer2-maintainability-specialist
 description: Deep maintainability review - readability, debuggability, complexity, duplication, future-proofing
 allowed-tools: []
 ---

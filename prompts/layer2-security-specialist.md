@@ -1,5 +1,5 @@
 ---
-name: security-specialist
+name: layer2-security-specialist
 description: Deep security review - injection, XSS, auth/authz, secrets, input validation, crypto, attack vectors
 allowed-tools: []
 ---
