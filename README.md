@@ -66,6 +66,8 @@ When you use **personas**, AI becomes critical:
 
 Choose your IDE and run the installer. Full-length prompts are installed automatically.
 
+> **Windows Note:** If you get "execution of scripts is disabled" error, use `powershell -ExecutionPolicy Bypass -File <script>` or run `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` once.
+
 ### VS Code
 
 ```bash
@@ -73,7 +75,7 @@ Choose your IDE and run the installer. Full-length prompts are installed automat
 ./install-vscode.sh
 
 # Windows (PowerShell)
-.\install-vscode.ps1
+powershell -ExecutionPolicy Bypass -File .\install-vscode.ps1
 ```
 
 **Compatible AI extensions:**
@@ -91,7 +93,7 @@ Choose your IDE and run the installer. Full-length prompts are installed automat
 
 ```powershell
 # Windows only
-.\install-visualstudio.ps1
+powershell -ExecutionPolicy Bypass -File .\install-visualstudio.ps1
 ```
 
 **Compatible AI features:**
@@ -110,7 +112,7 @@ Choose your IDE and run the installer. Full-length prompts are installed automat
 ./install-jetbrains.sh
 
 # Windows (PowerShell)
-.\install-jetbrains.ps1
+powershell -ExecutionPolicy Bypass -File .\install-jetbrains.ps1
 ```
 
 **Compatible AI features:**
@@ -130,8 +132,8 @@ Choose your IDE and run the installer. Full-length prompts are installed automat
 # Linux/Mac
 ./install-skills.sh
 
-# Windows (PowerShell)
-.\install-skills.ps1
+# Windows (PowerShell - run from the repo directory)
+powershell -ExecutionPolicy Bypass -File .\install-skills.ps1
 ```
 
 **What gets installed:**
@@ -141,7 +143,7 @@ Choose your IDE and run the installer. Full-length prompts are installed automat
 **Usage:** Layer 0 is automatic. Type `/layer1-quick-review` for reviews.
 
 <details>
-<summary><strong>Manual installation & skill-rules.json</strong> (click to expand)</summary>
+<summary><strong>Manual installation</strong> (click to expand)</summary>
 
 Skills require a specific folder structure:
 ```
@@ -153,47 +155,47 @@ Skills require a specific folder structure:
 └── ...
 ```
 
-**Manual steps:**
+**Linux/Mac manual steps:**
 
-1. **Create folders:**
-   ```bash
-   mkdir -p ~/.claude/skills/layer1-quick-review
-   # ... repeat for each prompt
-   ```
+```bash
+# Create folders and copy files
+for skill in layer0-generation-guidelines layer1-quick-review \
+             layer2-correctness-specialist layer2-data-integrity-specialist \
+             layer2-maintainability-specialist layer2-performance-specialist \
+             layer2-security-specialist layer3-verification; do
+    mkdir -p ~/.claude/skills/$skill
+    cp prompts/$skill.md ~/.claude/skills/$skill/SKILL.md
+done
+```
 
-2. **Copy prompts:**
-   ```bash
-   cp prompts/layer1-quick-review.md ~/.claude/skills/layer1-quick-review/SKILL.md
-   # ... repeat for each prompt
-   ```
+**Windows manual steps (PowerShell):**
 
-3. **Ensure frontmatter exists:**
-   ```yaml
-   ---
-   name: layer1-quick-review
-   description: Quick code review for common issues
-   user_invocable: true
-   ---
-   ```
+```powershell
+# Create folders and copy files
+$skills = @("layer0-generation-guidelines", "layer1-quick-review",
+            "layer2-correctness-specialist", "layer2-data-integrity-specialist",
+            "layer2-maintainability-specialist", "layer2-performance-specialist",
+            "layer2-security-specialist", "layer3-verification")
 
-**(Optional) Enable auto-suggestions** by adding to `~/.claude/skills/skill-rules.json`:
-
-```json
-{
-    "version": "1.0",
-    "skills": {
-        "layer1-quick-review": {
-            "type": "domain",
-            "enforcement": "suggest",
-            "priority": "high",
-            "description": "Quick code review for common issues",
-            "promptTriggers": {
-                "keywords": ["review code", "code review", "check my code"]
-            }
-        }
-    }
+foreach ($skill in $skills) {
+    $dir = "$env:USERPROFILE\.claude\skills\$skill"
+    New-Item -ItemType Directory -Path $dir -Force | Out-Null
+    Copy-Item "prompts\$skill.md" -Destination "$dir\SKILL.md"
 }
 ```
+
+**Verify frontmatter format:**
+
+Each SKILL.md must have YAML frontmatter with the `name:` matching the folder name:
+```yaml
+---
+name: layer1-quick-review
+description: Comprehensive code review catching 80%+ of real issues before commit
+allowed-tools: []
+---
+```
+
+**Important:** The `name:` field must include the full prefix (e.g., `layer1-quick-review`, not just `quick-review`) for `/layer` autocomplete to work.
 
 </details>
 
