@@ -1,6 +1,6 @@
 ---
-name: layer2-maintainability-specialist
-description: Deep maintainability review - readability, debuggability, complexity, duplication, future-proofing
+name: layer3b-maintainability-specialist
+description: Ensure code is understandable and modifiable. Use for complex or critical code that will live >6 months. Triggers on "maintainability", "readability", "code quality".
 allowed-tools: []
 ---
 

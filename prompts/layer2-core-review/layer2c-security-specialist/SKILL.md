@@ -1,6 +1,6 @@
 ---
-name: layer2-security-specialist
-description: Deep security review - injection, XSS, auth/authz, secrets, input validation, crypto, attack vectors
+name: layer2c-security-specialist
+description: Deep security analysis for injection, XSS, auth/authz vulnerabilities. Use for authentication, authorization, data handling, API endpoints. Triggers on "security review", "vulnerabilities", or reviewing user-facing code.
 allowed-tools: []
 ---
 

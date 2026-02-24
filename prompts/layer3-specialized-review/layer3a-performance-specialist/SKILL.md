@@ -1,6 +1,6 @@
 ---
-name: layer2-performance-specialist
-description: Deep performance review - bottlenecks, scalability, resource management, algorithmic complexity
+name: layer3a-performance-specialist
+description: Find performance bottlenecks and scalability issues. Use for database queries, loops, API calls, data processing, anything that will scale. Triggers on "performance", "scalability", "bottleneck".
 allowed-tools: []
 ---
 

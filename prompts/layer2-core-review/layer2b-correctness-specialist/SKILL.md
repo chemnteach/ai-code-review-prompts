@@ -1,6 +1,6 @@
 ---
-name: layer2-correctness-specialist
-description: Deep correctness review - logic errors, edge cases, race conditions, data flow
+name: layer2b-correctness-specialist
+description: Find logic errors and edge cases. Use when code has complex logic or data transformations. Triggers on "check logic", "edge cases", "correctness review".
 allowed-tools: []
 ---
 

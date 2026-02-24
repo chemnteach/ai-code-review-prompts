@@ -1,6 +1,6 @@
 ---
-name: layer2-data-integrity-specialist
-description: Deep data integrity review - validation, transactions, consistency, corruption prevention
+name: layer2d-data-integrity-specialist
+description: Ensure data remains correct and consistent. Use for database operations, data transformations, API integrations. Triggers on "data integrity", "data consistency", or reviewing data layer code.
 allowed-tools: []
 ---
 

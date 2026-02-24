@@ -1,6 +1,6 @@
 ---
-name: layer3-verification
-description: Verify fixes actually work - mandatory for Critical/P1 findings, prevents false fixes and regressions
+name: layer6-verification
+description: Verify that fixes actually work. Mandatory for Critical and P1 findings. Use after fixing Critical/P1 issues from any review. Triggers on "verify fixes", "check fixes", or after completing fixes.
 allowed-tools: []
 ---
 

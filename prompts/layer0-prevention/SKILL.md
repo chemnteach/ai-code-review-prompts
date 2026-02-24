@@ -1,15 +1,69 @@
 ---
-name: layer0-generation-guidelines
-description: Prevention guidelines for code quality and AI-specific pitfalls - use at session start
+name: layer0-prevention
+description: Prevention guidelines for code quality and AI-specific pitfalls - use at session start. Triggers on starting new coding session or "generation guidelines".
 allowed-tools: []
 ---
 
 # Code Generation Guidelines
 
 **Purpose:** Prevention guidelines to paste at session start. Reduces issues before they exist.
+
 **When to use:** At the start of every coding session with AI.
 
 ---
+
+## How to Use This Skill
+
+This skill works differently depending on your environment:
+
+### In Claude Code
+**Recommended:** Add as a skill to your project
+1. Place this skill folder in your Claude Code skills directory
+2. Claude Code will load it automatically for the project
+3. The guidelines will be active for all coding in that project
+
+**Alternative:** Paste at session start
+- Copy the guidelines below and paste into the first message when starting a coding task
+- Example: "Follow these guidelines: [paste content]... Now help me build X"
+
+### In Claude.ai (Web/Mobile)
+**Recommended:** Upload as a skill
+1. Zip this skill folder
+2. Settings → Capabilities → Skills → Upload
+3. Enable for projects where you're coding
+4. Guidelines automatically apply when skill is enabled
+
+**Alternative:** Paste in first message
+- Useful for one-off coding sessions
+- Copy the guidelines section and include in your first coding request
+
+### Via API
+**Option 1:** Include in system prompt
+```python
+system_prompt = """
+You are an AI coding assistant. Follow these generation guidelines:
+[paste guidelines here]
+"""
+
+messages = [
+    {"role": "system", "content": system_prompt},
+    {"role": "user", "content": "Help me build..."}
+]
+```
+
+**Option 2:** Use Skills API (if available)
+- Attach this skill to coding conversations via the skills parameter
+- See Claude API documentation for skills support
+
+### Key Principle
+**Load once per session, applies to all subsequent code generation in that session.**
+- Don't repeat in every message
+- Guidelines remain active throughout the conversation
+- If Claude seems to have forgotten, reference them: "Remember the generation guidelines about managing uncertainty"
+
+---
+
+## The Guidelines
 
 Before writing any code, follow these standards.
 
