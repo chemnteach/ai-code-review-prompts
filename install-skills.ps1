@@ -76,6 +76,53 @@ Write-Host ""
 # Create directory if it doesn't exist
 New-Item -ItemType Directory -Path $skillsDir -Force | Out-Null
 
+# Check for and remove old v1.0 skills
+Write-Host "Checking for old v1.0 skills..." -ForegroundColor Yellow
+
+$v1Skills = @(
+    "layer0-generation-guidelines",
+    "layer1-quick-review",
+    "layer2-correctness-specialist",
+    "layer2-data-integrity-specialist",
+    "layer2-maintainability-specialist",
+    "layer2-performance-specialist",
+    "layer2-security-specialist",
+    "layer3-verification"
+)
+
+$foundV1Skills = @()
+foreach ($oldSkill in $v1Skills) {
+    $oldPath = Join-Path $skillsDir $oldSkill
+    if (Test-Path $oldPath) {
+        $foundV1Skills += $oldSkill
+    }
+}
+
+if ($foundV1Skills.Count -gt 0) {
+    Write-Host ""
+    Write-Host "Found $($foundV1Skills.Count) old v1.0 skills:" -ForegroundColor Yellow
+    foreach ($skill in $foundV1Skills) {
+        Write-Host "  - $skill" -ForegroundColor Gray
+    }
+    Write-Host ""
+    Write-Host "These will be replaced by v2.0 equivalents." -ForegroundColor Yellow
+    $confirm = Read-Host "Remove old v1.0 skills? (Y/N)"
+    
+    if ($confirm -eq "Y" -or $confirm -eq "y") {
+        foreach ($oldSkill in $foundV1Skills) {
+            $oldPath = Join-Path $skillsDir $oldSkill
+            Write-Host "  Removing: $oldSkill" -ForegroundColor Gray
+            Remove-Item -Recurse -Force $oldPath
+        }
+        Write-Host "Removed $($foundV1Skills.Count) old v1.0 skills" -ForegroundColor Green
+    } else {
+        Write-Host "Skipped removal. Old v1.0 skills will remain alongside v2.0." -ForegroundColor Yellow
+    }
+} else {
+    Write-Host "No old v1.0 skills found" -ForegroundColor Green
+}
+Write-Host ""
+
 # Check if prompts directory exists
 if (-not (Test-Path "prompts")) {
     Write-Host "Error: 'prompts' folder not found!" -ForegroundColor Red

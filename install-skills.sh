@@ -67,6 +67,53 @@ echo ""
 # Create directory if it doesn't exist
 mkdir -p "$skills_dir"
 
+# Check for and remove old v1.0 skills
+echo "Checking for old v1.0 skills..."
+
+v1_skills=(
+    "layer0-generation-guidelines"
+    "layer1-quick-review"
+    "layer2-correctness-specialist"
+    "layer2-data-integrity-specialist"
+    "layer2-maintainability-specialist"
+    "layer2-performance-specialist"
+    "layer2-security-specialist"
+    "layer3-verification"
+)
+
+found_v1_skills=()
+for old_skill in "${v1_skills[@]}"; do
+    old_path="$skills_dir/$old_skill"
+    if [ -d "$old_path" ]; then
+        found_v1_skills+=("$old_skill")
+    fi
+done
+
+if [ ${#found_v1_skills[@]} -gt 0 ]; then
+    echo ""
+    echo "Found ${#found_v1_skills[@]} old v1.0 skills:"
+    for skill in "${found_v1_skills[@]}"; do
+        echo "  - $skill"
+    done
+    echo ""
+    echo "These will be replaced by v2.0 equivalents."
+    read -p "Remove old v1.0 skills? (y/n): " confirm
+    
+    if [ "$confirm" = "y" ] || [ "$confirm" = "Y" ]; then
+        for old_skill in "${found_v1_skills[@]}"; do
+            old_path="$skills_dir/$old_skill"
+            echo "  Removing: $old_skill"
+            rm -rf "$old_path"
+        done
+        echo "Removed ${#found_v1_skills[@]} old v1.0 skills"
+    else
+        echo "Skipped removal. Old v1.0 skills will remain alongside v2.0."
+    fi
+else
+    echo "No old v1.0 skills found"
+fi
+echo ""
+
 # Check if prompts directory exists
 if [ ! -d "prompts" ]; then
     echo "❌ Error: 'prompts' folder not found!"

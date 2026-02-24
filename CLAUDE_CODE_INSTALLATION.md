@@ -2,12 +2,17 @@
 
 ## Quick Install (Interactive)
 
-The installer will detect your existing Claude skills directory and let you choose where to install.
+The installer will:
+1. ✅ **Detect** your existing Claude skills directory
+2. 🔍 **Find old v1.0 skills** and ask to remove them
+3. 🤔 **Ask** where you want to install (default, detected, or custom)
+4. 📦 **Install** all 17 v2.0 skills
+5. 💾 **Save** your choice for future updates
 
 **Windows (PowerShell):**
 ```powershell
 cd ai-code-review-prompts
-.\install-skills.ps1
+powershell -ExecutionPolicy Bypass -File .\install-skills.ps1
 ```
 
 **Linux/Mac:**
@@ -17,11 +22,63 @@ chmod +x install-skills.sh
 ./install-skills.sh
 ```
 
-The installer will:
-1. ✅ **Detect** existing skills in common locations
-2. 🤔 **Ask** where you want to install (default, detected, or custom)
-3. 📦 **Install** all 17 skills
-4. 💾 **Save** your choice for future updates
+---
+
+## Upgrading from v1.0
+
+If you have old v1.0 skills installed, the installer will automatically detect them:
+
+```
+Checking for old v1.0 skills...
+
+Found 8 old v1.0 skills:
+  - layer0-generation-guidelines
+  - layer1-quick-review
+  - layer2-correctness-specialist
+  - layer2-data-integrity-specialist
+  - layer2-maintainability-specialist
+  - layer2-performance-specialist
+  - layer2-security-specialist
+  - layer3-verification
+
+These will be replaced by v2.0 equivalents.
+Remove old v1.0 skills? (Y/N):
+```
+
+**Recommendations:**
+- **Press Y** - Clean upgrade (recommended)
+  - Removes all v1.0 skills
+  - Installs fresh v2.0 skills
+  - No conflicts or confusion
+  
+- **Press N** - Keep both versions (not recommended)
+  - v1.0 and v2.0 coexist
+  - May cause confusion (two "quick-review" skills with different names)
+  - Takes up extra space
+
+**Old Skills → New Skills Mapping:**
+
+| Old v1.0 Skill | New v2.0 Skill | Notes |
+|----------------|----------------|-------|
+| layer0-generation-guidelines | layer0-prevention | Renamed and updated |
+| layer1-quick-review | layer2a-quick-review | Moved to layer 2 |
+| layer2-correctness-specialist | layer2b-correctness-specialist | Renumbered |
+| layer2-security-specialist | layer2c-security-specialist | Renumbered |
+| layer2-data-integrity-specialist | layer2d-data-integrity-specialist | Renumbered |
+| layer2-performance-specialist | layer3a-performance-specialist | Moved to layer 3 |
+| layer2-maintainability-specialist | layer3b-maintainability-specialist | Moved to layer 3 |
+| layer3-verification | layer6-verification | Moved to layer 6 |
+
+**Plus 9 new skills you don't have yet:**
+- layer1-planning (NEW)
+- layer3c-testability-specialist (NEW)
+- layer3d-error-handling-specialist (NEW)
+- layer3e-concurrency-specialist (NEW)
+- layer3f-prompt-injection-specialist (NEW)
+- layer3g-token-efficiency-specialist (NEW)
+- layer4a-code-smell-detector (NEW)
+- layer4b-refactoring-advisor (NEW)
+- layer5-fix-planning (NEW)
 
 ---
 
