@@ -146,6 +146,17 @@ for skill_dir in prompts/layer*-*/; do
     fi
 done
 
+# Install meta-skills (review, review-diff, verify, review-file)
+for skill_dir in prompts/meta/*/; do
+    if [ -f "$skill_dir/SKILL.md" ]; then
+        skill_name=$(basename "$skill_dir")
+        echo "  Installing meta/$skill_name..."
+        mkdir -p "$skills_dir/$skill_name"
+        cp "$skill_dir/SKILL.md" "$skills_dir/$skill_name/"
+        ((installed_count++))
+    fi
+done
+
 echo ""
 echo "=================================================="
 echo "  ✅ Installation Complete!"
@@ -159,6 +170,10 @@ echo "   /layer0-prevention          - Prevention guidelines"
 echo "   /layer1-planning            - Review planning"
 echo "   /layer2a-quick-review       - Quick review (80%+ coverage)"
 echo "   /layer2c-security-specialist - Security deep dive"
+echo "   /review                     - Full review pipeline"
+echo "   /review-diff                - Diff-scoped pre-commit review"
+echo "   /verify                     - Post-fix verification"
+echo "   /review-file                - Single file quick review"
 echo ""
 echo "📖 Full documentation: prompts/README.md"
 echo ""

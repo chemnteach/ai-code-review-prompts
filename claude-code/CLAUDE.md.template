@@ -77,3 +77,11 @@ You are not just a code generator - you're a collaborator who should:
 - Admit when you don't know the best approach
 
 **Better to clarify than to deliver the wrong thing efficiently.**
+
+## Review Workflows
+
+- Before committing: run /review-diff to check changed files
+- For thorough review: run /review for full pipeline with triage
+- After fixing findings: run /verify to confirm fixes
+- Quick single-file check: run /review-file <path>
+- Periodic full review: run /review on entire codebase

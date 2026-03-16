@@ -155,7 +155,23 @@ foreach ($skillDir in $rootSkills) {
     if (Test-Path $skillFile) {
         $skillName = $skillDir.Name
         Write-Host "  Installing $skillName..." -ForegroundColor Cyan
-        
+
+        $targetDir = Join-Path $skillsDir $skillName
+        New-Item -ItemType Directory -Path $targetDir -Force | Out-Null
+        Copy-Item $skillFile -Destination $targetDir -Force
+        $installedCount++
+    }
+}
+
+# Install meta-skills (review, review-diff, verify, review-file)
+$metaSkills = Get-ChildItem -Path "prompts\meta\*" -Directory -ErrorAction SilentlyContinue
+
+foreach ($skillDir in $metaSkills) {
+    $skillFile = Join-Path $skillDir.FullName "SKILL.md"
+    if (Test-Path $skillFile) {
+        $skillName = $skillDir.Name
+        Write-Host "  Installing meta/$skillName..." -ForegroundColor Cyan
+
         $targetDir = Join-Path $skillsDir $skillName
         New-Item -ItemType Directory -Path $targetDir -Force | Out-Null
         Copy-Item $skillFile -Destination $targetDir -Force
@@ -176,6 +192,10 @@ Write-Host "   /layer0-prevention          - Prevention guidelines" -ForegroundC
 Write-Host "   /layer1-planning            - Review planning" -ForegroundColor White
 Write-Host "   /layer2a-quick-review       - Quick review" -ForegroundColor White
 Write-Host "   /layer2c-security-specialist - Security deep dive" -ForegroundColor White
+Write-Host "   /review                     - Full review pipeline" -ForegroundColor White
+Write-Host "   /review-diff                - Diff-scoped pre-commit review" -ForegroundColor White
+Write-Host "   /verify                     - Post-fix verification" -ForegroundColor White
+Write-Host "   /review-file                - Single file quick review" -ForegroundColor White
 Write-Host ""
 Write-Host "Full documentation: prompts\README.md" -ForegroundColor Cyan
 Write-Host ""
